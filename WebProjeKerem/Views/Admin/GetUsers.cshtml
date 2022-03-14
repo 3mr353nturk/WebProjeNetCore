@@ -1,0 +1,92 @@
+﻿@model IEnumerable<WebProjeKerem.Models.Users>
+@{
+    ViewData["Title"] = "Kullanıcılar";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+<link rel="stylesheet" href="/admin/plugins/datatables/dataTables.bootstrap.css">
+<div class="row">
+    <!-- left column -->
+    <div class="col-md-12">
+        <!-- general form elements -->
+        <div class="box box-primary">
+            <div class="box-header with-border">
+                <h3 class="box-title">Kullanıcı Listesi</h3>
+            </div><!-- /.box-header -->
+            <!-- form start -->
+            <div class="box-body">
+                <table id="example2" class="table table-bordered table-hover">
+                    <thead>
+                        <tr>
+                            <th>Kullanıcı ID</th>
+                            <th>Kullanıcı Adı</th>
+                            <th>Resim</th>
+                            <th>Adı</th>
+                            <th>Soyadı</th>
+                            <th>Email Adresi</th>
+                            <th>Rolü</th>
+                            <th><a asp-action="CreateUpdateUser" class="btn btn-outline-success"><i class="far fa-plus-square"></i> Kullanıcı</a></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                        <tr>
+                            <td>@item.Id</td>
+                            <td>@item.Username</td>
+                            <td>
+                                <img src="/images/@item.Image" width="50">
+                            </td>
+                            <td>@item.Name</td>
+                            <td>@item.Surname</td>
+                            <td>@item.Email</td>
+                            <td>
+                                @if (item.IsRole == "A")
+                                {
+                                    <label class="badge badge-success">
+                                        <i class="fa fa-check-circle-o" aria-hidden="true"></i>
+                                        Admin
+                                    </label>
+                                }
+                                else
+                                {
+                                    <label class="badge badge-danger">
+                                        <i class="fa fa-check-circle-o" aria-hidden="true"></i>
+                                        Kullanıcı
+                                    </label>
+                                }
+                            </td>
+                            <td>
+                                <a asp-action="CreateUpdateUser" asp-route-id="@item.Id"><i class="fa fa-marker fa-lg"></i></a>
+                                <a asp-action="Delete" asp-route-id="@item.Id" class="text-danger ml-1" onclick="return confirm('Kullanıcıyı silmek istiyor musunuz?')"><i class="fa fa-trash-alt fa-lg"></i></a>
+                            </td>
+                        </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div><!-- /.box -->
+
+    </div><!--/.col (left) -->
+    <!-- right column -->
+    <!--/.col (right) -->
+</div>
+<script src="/admin/plugins/jQuery/jQuery-2.1.4.min.js"></script>
+<script src="/admin/plugins/datatables/jquery.dataTables.min.js"></script>
+<script src="/admin/plugins/datatables/dataTables.bootstrap.min.js"></script>
+<script>
+    $(function () {
+        $("#example1").DataTable();
+        $('#example2').DataTable({
+            "language": {
+                "url": "//cdn.datatables.net/plug-ins/1.10.12/i18n/Turkish.json"
+            },
+            "paging": true,
+            "lengthChange": true,
+            "searching": true,
+            "ordering": true,
+            "info": true,
+            "autoWidth": true
+        });
+    });
+</script>
+
